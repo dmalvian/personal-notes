@@ -11,6 +11,7 @@ class NoteInput extends React.Component {
 
     this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
     this.onBodyChangeEventHandler = this.onBodyChangeEventHandler.bind(this);
+    this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
   }
 
   onTitleChangeEventHandler(event) {
@@ -30,10 +31,15 @@ class NoteInput extends React.Component {
     });
   }
 
+  onSubmitEventHandler(event) {
+    event.preventDefault();
+    this.props.addNote(this.state);
+  }
+
   render() {
     return (
       <div className="note-input">
-        <form>
+        <form onSubmit={this.onSubmitEventHandler}>
           <p className="note-input__title__char-limit">
             Sisa Karakter: {this.props.maxTitleLength - this.state.title.length}
           </p>

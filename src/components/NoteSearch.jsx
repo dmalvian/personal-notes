@@ -22,7 +22,7 @@ class NoteSearch extends React.Component {
 
   render() {
     return (
-      <div class="note-search">
+      <div className="note-search">
         <input
           type="text"
           placeholder="Cari Catatan"
