@@ -9,12 +9,14 @@ class NoteApp extends React.Component {
 
     this.state = {
       notes: getInitialData(),
+      keyword: "",
     };
 
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
     this.onDeleteNoteHandler = this.onDeleteNoteHandler.bind(this);
-    this.onToggleArchiveNoteHandler =
-      this.onToggleArchiveNoteHandler.bind(this);
+    this.onToggleArchiveNoteHandler = this.onToggleArchiveNoteHandler.bind(this);
+    this.onSearchByTitleHandler = this.onSearchByTitleHandler.bind(this);
+    this.getFilteredNotes = this.getFilteredNotes.bind(this);
   }
 
   onAddNoteHandler({ title, body }) {
@@ -50,12 +52,27 @@ class NoteApp extends React.Component {
     this.setState({ notes });
   }
 
+  onSearchByTitleHandler(keyword) {
+    this.setState({ keyword });
+  }
+
+  getFilteredNotes() {
+    if (this.state.keyword === "") {
+      return this.state.notes;
+    }
+
+    return this.state.notes.filter((note) =>
+      new RegExp(this.state.keyword, "i").test(note.title)
+    );
+  }
+
   render() {
+    const filteredNotes = this.getFilteredNotes();
     return (
       <>
-        <NoteAppHeader />
+        <NoteAppHeader searchByTitle={this.onSearchByTitleHandler} />
         <NoteAppBody
-          notes={this.state.notes}
+          notes={filteredNotes}
           addNote={this.onAddNoteHandler}
           deleteNote={this.onDeleteNoteHandler}
           toggleArchiveNote={this.onToggleArchiveNoteHandler}
