@@ -3,6 +3,8 @@ import NoteAppHeader from "./NoteAppHeader";
 import NoteAppBody from "./NoteAppBody";
 import { getInitialData } from "../utils/index";
 
+import { ToastContainer, toast } from 'react-toastify';
+
 class NoteApp extends React.Component {
   constructor(props) {
     super(props);
@@ -35,21 +37,51 @@ class NoteApp extends React.Component {
           },
         ],
       };
+    }, () => {
+      toast.success('Berhasil menambahkan catatan.', {
+        position: "bottom-right",
+        theme: "dark",
+        type: "success",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
     });
   }
 
   onDeleteNoteHandler(id) {
     const notes = this.state.notes.filter((note) => note.id !== id);
-    this.setState({ notes });
+    this.setState({ notes }, () => {
+      toast.success('Berhasil menghapus catatan.', {
+        position: "bottom-right",
+        theme: "dark",
+        type: "success",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    });
   }
 
-  onToggleArchiveNoteHandler(id) {
+  onToggleArchiveNoteHandler(id, archived) {
     const notes = this.state.notes.map((note) => {
       if (note.id === id) return { ...note, archived: !note.archived };
 
       return note;
     });
-    this.setState({ notes });
+    this.setState({ notes }, () => {
+      toast.success(`Berhasil ${archived ? 'mengembalikan' : 'mengarsipkan'} catatan.`, {
+        position: "bottom-right",
+        theme: "dark",
+        type: "success",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    });
   }
 
   onSearchByTitleHandler(keyword) {
@@ -77,6 +109,7 @@ class NoteApp extends React.Component {
           deleteNote={this.onDeleteNoteHandler}
           toggleArchiveNote={this.onToggleArchiveNoteHandler}
         />
+        <ToastContainer />
       </>
     );
   }

@@ -4,7 +4,7 @@ function ToggleArchiveButton({ id, archived, toggleArchiveNote }) {
   return (
     <button
       className="note-item__archive-button"
-      onClick={() => toggleArchiveNote(id)}
+      onClick={() => toggleArchiveNote(id, archived)}
     >
       {archived ? "Pindahkan" : "Arsipkan"}
     </button>
